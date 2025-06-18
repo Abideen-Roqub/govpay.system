@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pay with BossPay</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f0f8ff;
+    }
+    h1 { color: #007bff; }
+    form { display: inline-block; margin-top: 20px; }
+    input { padding: 8px; margin: 8px 0; width: 250px; }
+    button {
+      padding: 12px 25px;
+      background-color: #00cc88;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #009966;
+    }
+  </style>
+</head>
+<body>
+  <h1>BossPay — Make a Secure Payment</h1>
+  <form id="paymentForm">
+    <input type="email" id="email-address" placeholder="Your email" required /><br>
+    <input type="number" id="amount" placeholder="Amount in ₦" required /><br>
+    <button type="submit">Pay Now</button>
+  </form>
+
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script>
+    const paymentForm = document.getElementById("paymentForm");
+    paymentForm.addEventListener("submit", payWithPaystack, false);
+
+    function payWithPaystack(e) {
+      e.preventDefault();
+      let handler = PaystackPop.setup({
+        key: "pk_test_b7b9d81311e42e6d8e27a68388da79da1d297f1c",
+        email: document.getElementById("email-address").value,
+        amount: document.getElementById("amount").value * 100,
+        currency: "NGN",
+        callback: function (response) {
+          window.location = "thankyou.html"; // ✅ redirect after success
+        },
+        onClose: function () {
+          alert("Payment window closed.");
+        }
+      });
+      handler.openIframe();
+    }
+  </script>
+</body>
+</html>
